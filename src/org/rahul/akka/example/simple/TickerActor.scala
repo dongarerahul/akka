@@ -1,3 +1,5 @@
+package org.rahul.akka.example.simple
+
 import java.util.logging.Logger
 
 import akka.actor.Actor
@@ -14,5 +16,7 @@ class TickerActor extends Actor {
   }
 }
 
-case object Status
+case class Contains(key: String)
 case object Tick
+case object Status
+

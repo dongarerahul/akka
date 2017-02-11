@@ -3,6 +3,8 @@ import akka.testkit.{ImplicitSender, TestKit}
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 import akka.pattern._
 import akka.util.Timeout
+import org.rahul.akka.example.advance.{ActorNotLeakingState1, Continue, IsPresent, Reject}
+import org.rahul.akka.example.simple
 
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -22,17 +24,17 @@ class ActorNotLeakingStateTest extends TestKit(ActorSystem("ActorNotLeakingTest"
     TestKit.shutdownActorSystem(system)
   }
 
-  "ActorNotLeakingState1 should process messages for storeing and retrieving state" in {
+  "org.rahul.akka.example.advance.ActorNotLeakingState1 should process messages for storeing and retrieving state" in {
     val actor = system.actorOf(Props[ActorNotLeakingState1], name = "ActorNotLeaking1")
 
-    val result = actor ? Add("Hello1")
+    val result = actor ? simple.Add("Hello1")
     result onComplete {
       case Success(Continue) => "Added Successfully !"
       case Success(Reject)   => "Rejected Successfully !"
       case Failure(error)    => "Failure"
     }
 
-    actor ! Add("Hello2")
+    actor ! simple.Add("Hello2")
 
     checkResult(actor, "Hello1")
     checkResult(actor, "Hello2")

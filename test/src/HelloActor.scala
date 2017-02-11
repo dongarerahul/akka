@@ -5,7 +5,7 @@ import akka.actor.Actor.Receive
 
 class HelloActor extends Actor {
 
-  val logger = Logger.getLogger("HelloActor")
+  val logger = Logger.getLogger("org.rahul.akka.example.simple.HelloActor")
 
   override def receive: Receive = {
     case MyMessage("Hello")  => {

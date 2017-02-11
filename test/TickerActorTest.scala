@@ -3,6 +3,7 @@ import akka.testkit.TestKit
 import org.scalatest.{BeforeAndAfter, BeforeAndAfterAll, FlatSpecLike, Matchers}
 import akka.pattern.ask
 import akka.util.Timeout
+import org.rahul.akka.example.simple.{Status, Tick, TickerActor}
 
 import scala.util.{Failure, Success}
 import scala.concurrent.duration._
@@ -21,7 +22,7 @@ class TickerActorTest extends TestKit(ActorSystem("TickerActorTest"))
     }
 
   "Ticker Actor" should "accept tick message to increase counter" in {
-    val goodActorRef = system.actorOf(Props[TickerActor], name = "TickerActor")
+    val goodActorRef = system.actorOf(Props[TickerActor], name = "org.rahul.akka.example.simple.TickerActor")
 
     goodActorRef ! Tick;
     val future = goodActorRef ? Status;

@@ -1,8 +1,10 @@
+package org.rahul.akka.example.advance
+
 import akka.actor.Actor
-import akka.actor.Actor.Receive
+
 import scala.collection.mutable
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 // Bad Design where functions that execute asynchronously and t
 // hat capture variables that aren't meant to escape their context
@@ -23,5 +25,5 @@ class ActorLeakingState extends Actor {
   }
 
   // Fix is separate mutable code and keet it small and in separate method
-  // see ActorNotLeakingState.scala
+  // see org.rahul.akka.example.advance.ActorNotLeakingState.scala
 }

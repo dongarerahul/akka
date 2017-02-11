@@ -3,8 +3,10 @@ import akka.actor.{ActorSystem, Props}
 import akka.testkit.{ImplicitSender, TestActorRef, TestKit}
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 import akka.pattern.ask
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import akka.util.Timeout
+import org.rahul.akka.example.simple
 
 import scala.util.{Failure, Success}
 import scala.concurrent.duration._
@@ -21,16 +23,16 @@ class HelloActorTest extends TestKit(ActorSystem("HelloActors"))
     TestKit.shutdownActorSystem(system)
   }
 
-  "An HelloActor using implicit sender " must {
+  "An org.rahul.akka.example.simple.HelloActor using implicit sender " must {
     "send back message 'Hello World' " in {
-      val actor = system.actorOf(Props[HelloActor], name = "HelloActor")
+      val actor = system.actorOf(Props[simple.HelloActor], name = "org.rahul.akka.example.simple.HelloActor")
       actor ! MyMessage("Hello")
       expectMsg(MyMessage("Hello World"))
     }
 
     "catch response message using future " in {
       implicit val timeout = Timeout(3 seconds)
-      val actorRef = TestActorRef(new HelloActor)
+      val actorRef = TestActorRef(new simple.HelloActor)
       val future = actorRef ? MyMessage("Hello")
       future.onComplete {
         case Success(result) => result should be (MyMessage("Hello World"))
@@ -39,7 +41,7 @@ class HelloActorTest extends TestKit(ActorSystem("HelloActors"))
     }
 
     "throw exception when see unhanled message " in {
-      val actorRef = TestActorRef(new HelloActor)
+      val actorRef = TestActorRef(new simple.HelloActor)
       intercept[IllegalArgumentException] {
         actorRef.receive(MyMessage("Bad Message"))
       }

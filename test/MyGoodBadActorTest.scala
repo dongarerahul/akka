@@ -3,6 +3,9 @@ import org.scalatest._
 import akka.testkit.TestKit
 import akka.pattern.ask
 import akka.util.Timeout
+import org.rahul.akka.example.simple
+import org.rahul.akka.example.simple.{MyBadMutableActor, MyGoodActor}
+
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
@@ -21,15 +24,15 @@ class MyGoodBadActorTest extends TestKit(ActorSystem("MyGoodBacActorTests"))
 
   "Good Actor" should "provide Store and Retrieve feature" in {
     val goodActorRef: ActorRef = system.actorOf(Props[MyGoodActor], name = "GoodActor")
-    goodActorRef ! Add("FirstItem")
+    goodActorRef ! simple.Add("FirstItem")
 
-    val result = goodActorRef ? Contains("FirstItem")
+    val result = goodActorRef ? simple.Contains("FirstItem")
     result.onComplete {
       case Success(item) => item shouldBe true;
       case Failure(error) => error.printStackTrace(); error shouldBe true
     }
 
-    val result2 = goodActorRef ? Contains("SecondItem")
+    val result2 = goodActorRef ? simple.Contains("SecondItem")
     result2.onComplete {
       case Success(item) => item shouldBe false;
       case Failure(error) => error.printStackTrace(); error shouldBe true
@@ -38,15 +41,15 @@ class MyGoodBadActorTest extends TestKit(ActorSystem("MyGoodBacActorTests"))
 
   "Bad Actor" should "run" in {
     val badActorRef: ActorRef = system.actorOf(Props[MyBadMutableActor], name = "BadActor")
-    badActorRef ! Add("FirstItem")
+    badActorRef ! simple.Add("FirstItem")
 
-    val result = badActorRef ? Contains("FirstItem")
+    val result = badActorRef ? simple.Contains("FirstItem")
     result.onComplete {
       case Success(item) => item shouldBe true;
       case Failure(error) => error.printStackTrace(); assert(false)
     }
 
-    val result2 = badActorRef ? Contains("SecondItem")
+    val result2 = badActorRef ? simple.Contains("SecondItem")
     result2.onComplete {
       case Success(item) => item shouldBe false;
       case Failure(error) => error.printStackTrace(); error shouldBe false

@@ -1,3 +1,5 @@
+package org.rahul.akka.example.simple
+
 import java.util.logging.Logger
 
 import akka.actor.Actor
@@ -13,7 +15,4 @@ class MyBadMutableActor extends Actor {
     case Contains(key)  => logger.info("MyBadActor -> Contains Message Received"); sender() ! isInSet(key)
   }
 }
-
 case class Add(key: String)
-case class Contains(key: String)
-

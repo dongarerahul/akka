@@ -1,9 +1,9 @@
+package org.rahul.akka.example.advance
+
 import java.util.logging.Logger
 
 import akka.actor.{Actor, ActorRef}
-import akka.pattern._
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 // Mutating Context here is nothing but context update to new function
@@ -20,10 +20,10 @@ class ActorNotLeakingState1 extends Actor {
 
   def idle(isIntSet: Set[String]) : Receive = {
     case Add(key) =>
-      logger.info(s"*************** Received Idle :: Add($key) with param :: $isIntSet")
+      logger.info(s"*************** Received Idle :: org.rahul.akka.example.simple.Add($key) with param :: $isIntSet")
       validate(key) map(Validated(key, _)) pipeTo(self)
       context.become(waitForValidation(isIntSet, sender()))
-      logger.info(s"*************** Ending Idle :: Add($key) with param :: $isIntSet")
+      logger.info(s"*************** Ending Idle :: org.rahul.akka.example.simple.Add($key) with param :: $isIntSet")
 
     case IsPresent(key) =>
       logger.info(s"*************** Received Idle :: IsPresent($key)")
@@ -42,9 +42,9 @@ class ActorNotLeakingState1 extends Actor {
       logger.info(s"*************** Ending waitForValidation :: Validated($key) with param :: $set")
 
     case Add(input) =>
-      logger.info(s"**************** waitForValidation->Add($input)")
+      logger.info(s"**************** waitForValidation->org.rahul.akka.example.simple.Add($input)")
       source ! Reject
-      logger.info(s"**************** Context is still waitForValidation. Hence Rejected -> Add($input)")
+      logger.info(s"**************** Context is still waitForValidation. Hence Rejected -> org.rahul.akka.example.simple.Add($input)")
 
     case IsPresent(key) =>
       logger.info(s"*************** Received waitForValidation :: IsPresent($key)")
@@ -54,9 +54,3 @@ class ActorNotLeakingState1 extends Actor {
       logger.info(s"*************** Ending waitForValidation :: IsPresent($key)")
   }
 }
-
-case class Continue()
-case class Reject()
-
-case class Validated(key: String, isValid: Boolean)
-case class IsPresent(key: String)

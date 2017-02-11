@@ -1,2 +1,4 @@
-# akka-fsm
-Scala Akka Actor creating Finite State Machine mutating state
+# akka-examples
+Workflow solutions using Akka Actor
+- Not using Akka FSM
+- But using context.become

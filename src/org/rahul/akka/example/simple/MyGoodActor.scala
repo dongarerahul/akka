@@ -1,3 +1,5 @@
+package org.rahul.akka.example.simple
+
 import java.util.logging.Logger
 
 import akka.actor.Actor
