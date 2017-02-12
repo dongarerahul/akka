@@ -3,12 +3,12 @@ package org.rahul.akka.example.advance
 import java.util.logging.Logger
 
 import akka.actor.{Actor, ActorRef}
-
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 // Mutating Context here is nothing but context update to new function
 // For bad good, see ActorLeakingState.scala
-class ActorNotLeakingState1 extends Actor {
+class ActorNotLeakingStateBetter extends Actor {
 
   val logger = Logger.getLogger("ActorNotLeakingState1")
 
@@ -21,7 +21,7 @@ class ActorNotLeakingState1 extends Actor {
   def idle(isIntSet: Set[String]) : Receive = {
     case Add(key) =>
       logger.info(s"*************** Received Idle :: org.rahul.akka.example.simple.Add($key) with param :: $isIntSet")
-      validate(key) map(Validated(key, _)) pipeTo(self)
+      //validate(key) map(Validated(key, _)) pipeTo(self)
       context.become(waitForValidation(isIntSet, sender()))
       logger.info(s"*************** Ending Idle :: org.rahul.akka.example.simple.Add($key) with param :: $isIntSet")
 

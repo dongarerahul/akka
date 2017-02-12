@@ -1,15 +1,16 @@
-import akka.actor.{ActorRef, ActorSystem, Props}
-import akka.testkit.TestKit
-import org.scalatest.{BeforeAndAfter, BeforeAndAfterAll, FlatSpecLike, Matchers}
+package org.rahul.akka.example.simple
+
+import akka.actor.{ActorSystem, Props}
 import akka.pattern.ask
+import akka.testkit.TestKit
 import akka.util.Timeout
-import org.rahul.akka.example.simple.{Status, Tick, TickerActor}
+import org.scalatest.{BeforeAndAfter, BeforeAndAfterAll, FlatSpecLike, Matchers}
 
-import scala.util.{Failure, Success}
-import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration._
+import scala.util.{Failure, Success}
 
-class TickerActorTest extends TestKit(ActorSystem("TickerActorTest"))
+class TickerActorTest extends TestKit(ActorSystem("org.rahul.akka.example.simple.TickerActorTest"))
   with Matchers
   with FlatSpecLike
   with BeforeAndAfter

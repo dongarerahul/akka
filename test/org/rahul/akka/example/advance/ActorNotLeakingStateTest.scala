@@ -1,13 +1,14 @@
-import akka.actor.{ActorRef, ActorSystem, Props}
-import akka.testkit.{ImplicitSender, TestKit}
-import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
-import akka.pattern._
-import akka.util.Timeout
-import org.rahul.akka.example.advance.{ActorNotLeakingState1, Continue, IsPresent, Reject}
-import org.rahul.akka.example.simple
+package org.rahul.akka.example.advance
 
-import scala.concurrent.duration._
+import akka.actor.{ActorRef, ActorSystem, Props}
+import akka.pattern._
+import akka.testkit.{ImplicitSender, TestKit}
+import akka.util.Timeout
+import org.rahul.akka.example.simple
+import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
+
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
 class ActorNotLeakingStateTest extends TestKit(ActorSystem("ActorNotLeakingTest"))

@@ -1,13 +1,14 @@
+package org.rahul.akka.example.simple
+
 import akka.actor.{ActorRef, ActorSystem, Props}
-import org.scalatest._
-import akka.testkit.TestKit
 import akka.pattern.ask
+import akka.testkit.TestKit
 import akka.util.Timeout
 import org.rahul.akka.example.simple
-import org.rahul.akka.example.simple.{MyBadMutableActor, MyGoodActor}
+import org.scalatest._
 
-import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
 class MyGoodBadActorTest extends TestKit(ActorSystem("MyGoodBacActorTests"))

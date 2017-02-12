@@ -1,6 +1,6 @@
 .idea
-./project/*
-./target/*
+project/*
+target/*
 ./src/project/*
 ./src/project/*
 ./test/target/*

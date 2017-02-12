@@ -1,15 +1,15 @@
-import akka.actor
-import akka.actor.{ActorSystem, Props}
-import akka.testkit.{ImplicitSender, TestActorRef, TestKit}
-import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
-import akka.pattern.ask
+package org.rahul.akka.example.simple
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import akka.actor.{ActorSystem, Props}
+import akka.pattern.ask
+import akka.testkit.{ImplicitSender, TestActorRef, TestKit}
 import akka.util.Timeout
 import org.rahul.akka.example.simple
+import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 
-import scala.util.{Failure, Success}
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
+import scala.util.{Failure, Success}
 
 class HelloActorTest extends TestKit(ActorSystem("HelloActors"))
   with WordSpecLike
