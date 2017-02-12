@@ -14,7 +14,7 @@ class Router(producer: ActorRef, worker: ActorRef) extends Actor {
   override def preStart() = {
     super.preStart()
     downStreamQueue = downStreamQueue.enqueue(worker)
-    producer ! Continue
+    //producer ! Continue
   }
 
   override def receive: Receive = {
@@ -46,5 +46,10 @@ class Router(producer: ActorRef, worker: ActorRef) extends Actor {
         worker ! item
         producer ! Continue
       }
+
+    case Shutdown =>
+      logger.info(s"********** Router -> Shutdown !")
+      worker ! Shutdown
+      context.stop(self)
   }
 }

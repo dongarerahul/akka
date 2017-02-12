@@ -13,5 +13,6 @@ object ProducerConsumerApp {
 
     worker ! router
     producer ! router
+
   }
 }

@@ -13,6 +13,7 @@ class Producer(source: DataSource) extends Actor {
 
   var router : ActorRef = null
   val logger = Logger.getLogger("Producer")
+  var pollTick = 0
 
   def standBy: Receive = {
     case PollTick =>
@@ -33,8 +34,14 @@ class Producer(source: DataSource) extends Actor {
   }
 
   def polling: Receive = {
-    case PollTick => {
-      logger.info("************* Producer-> Received PollTick Message !")
+    case PollTick(counter) => {
+      pollTick = pollTick + 1
+      logger.info("************* Producer-> Received Message : " + PollTick(pollTick))
+      if(pollTick > counter) {
+        logger.info("********** No Work ! Hence shutting down Producer ")
+        self ! Shutdown
+      }
+
       source.next() match {
         case None => // Do nothing is no data is available after poll
           logger.info("********** Producer -> polling -> Source have None Item !")
@@ -45,10 +52,16 @@ class Producer(source: DataSource) extends Actor {
         }
       }
     }
+
+    case Shutdown =>
+      logger.info("********** Producer -> polling -> Shutdown !")
+      router ! Shutdown
+      context.stop(self)
   }
 
   override def preStart() = { // poll after every second
     super.preStart()
-    context.system.scheduler.schedule(2.second, 3.second, self, PollTick)
+    context.system.scheduler.schedule(2.second, 3.second, self, PollTick(3))
+    logger.info(s"********** Producer -> preStart :: Scheduled PollTick")
   }
 }

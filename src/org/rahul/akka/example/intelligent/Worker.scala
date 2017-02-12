@@ -22,9 +22,14 @@ class Worker extends Actor {
       logger.info(s"********** Worker->Receive :: Got Item Assigned :: $item")
       process(item)
       router ! Continue
+
     case reference: ActorRef =>
       logger.info("********** Worker->Receive :: Received Router Reference !")
       this.router = reference
-      //router ! Continue
+
+    case Shutdown =>
+      logger.info(s"********** Worker->Receive -> Shutdown !")
+      context.stop(self)
+      context.system.terminate()
   }
 }

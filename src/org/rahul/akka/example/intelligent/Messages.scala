@@ -16,6 +16,7 @@ package org.rahul.akka.example.intelligent
 
 // Worker processes item and once finished, ask Router to send one more (i.e. Message Continue)
 
+case object Shutdown
 case object Continue // Producer can continue to produce more as consumers are ready
-case object PollTick // Producer can fetch if is there any item available from data-source
+case class PollTick(counter: Int) // Producer can fetch if is there any item available from data-source
 case class Item(name: String)
