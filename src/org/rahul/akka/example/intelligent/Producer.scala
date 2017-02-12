@@ -18,7 +18,7 @@ class Producer(source: DataSource) extends Actor {
     case PollTick =>
 
     case reference: ActorRef =>
-      logger.info("********** Producer->standBy :: router reference ")
+      logger.info("********** Producer->standBy :: Received Router Reference !")
       this.router = reference
       context.become(polling)
 
@@ -34,12 +34,12 @@ class Producer(source: DataSource) extends Actor {
 
   def polling: Receive = {
     case PollTick => {
-      logger.info("************* Producer-> PollTick")
+      logger.info("************* Producer-> Received PollTick Message !")
       source.next() match {
         case None => // Do nothing is no data is available after poll
-          logger.info("********** Producer -> polling -> None")
+          logger.info("********** Producer -> polling -> Source have None Item !")
         case Some(item) => { //found some data after poll, then process data and change context to active
-          logger.info(s"********** Producer -> polling -> Found Item from the source :: $item")
+          logger.info(s"********** Producer -> polling -> Source have Some Item :: $item")
           router ! item
           context.become(standBy)
         }
@@ -49,6 +49,6 @@ class Producer(source: DataSource) extends Actor {
 
   override def preStart() = { // poll after every second
     super.preStart()
-    context.system.scheduler.schedule(2.second, 1.second, self, PollTick)
+    context.system.scheduler.schedule(2.second, 3.second, self, PollTick)
   }
 }

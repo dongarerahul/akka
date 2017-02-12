@@ -14,17 +14,17 @@ class Worker extends Actor {
     super.preStart
   }
 
-  def process(item: Item): Unit = println("Processing : " + item)
+  def process(item: Item): Unit = println("********* Worker.Process : " + item)
 
   override def receive: Receive = {
 
     case item: Item =>
-      logger.info(s"********** Worker->Receive :: $item")
+      logger.info(s"********** Worker->Receive :: Got Item Assigned :: $item")
       process(item)
       router ! Continue
     case reference: ActorRef =>
-      logger.info("********** Worker->Receive :: router reference ")
+      logger.info("********** Worker->Receive :: Received Router Reference !")
       this.router = reference
-      router ! Continue
+      //router ! Continue
   }
 }

@@ -7,8 +7,11 @@ class DataSource {
   val iterator = data.iterator
   val logger = Logger.getLogger("DataSource")
 
-  def next() : Option[String] = {
-    logger.info("******** DataSource->Next")
-    Option(iterator.next())
+  def next() : Option[Item] = {
+    if(!iterator.hasNext) return None
+
+    val name: String = iterator.next()
+    logger.info(s"******** DataSource->Next :: Pulling Item :: $name")
+    Option(Item(name))
   }
 }
