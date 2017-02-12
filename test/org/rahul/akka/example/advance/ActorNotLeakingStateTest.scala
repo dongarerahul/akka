@@ -26,7 +26,7 @@ class ActorNotLeakingStateTest extends TestKit(ActorSystem("ActorNotLeakingTest"
   }
 
   "org.rahul.akka.example.advance.ActorNotLeakingState1 should process messages for storeing and retrieving state" in {
-    val actor = system.actorOf(Props[ActorNotLeakingState1], name = "ActorNotLeaking1")
+    val actor = system.actorOf(Props[ActorNotLeakingStateBetter], name = "ActorNotLeakingBetter")
 
     val result = actor ? simple.Add("Hello1")
     result onComplete {
@@ -47,7 +47,7 @@ class ActorNotLeakingStateTest extends TestKit(ActorSystem("ActorNotLeakingTest"
       case Success(isPresent) => {
         if(isPresent==false) {
           println(s"Still Not Added $key ... Trying $attempt attempt")
-          checkResult(actor, key, attempt+1)
+          //checkResult(actor, key, attempt+1)
         }
         isPresent shouldBe(true)
       }

@@ -1,11 +1,14 @@
 package org.rahul.akka.example.intelligent
 
+import java.util.logging.Logger
+
 import akka.actor.{Actor, ActorRef}
 import akka.actor.Actor.Receive
 
 class Worker extends Actor {
 
   var router : ActorRef = null
+  val logger = Logger.getLogger("Worker")
 
   override def preStart = {
     super.preStart
@@ -14,10 +17,13 @@ class Worker extends Actor {
   def process(item: Item): Unit = println("Processing : " + item)
 
   override def receive: Receive = {
+
     case item: Item =>
+      logger.info(s"********** Worker->Receive :: $item")
       process(item)
       router ! Continue
     case reference: ActorRef =>
+      logger.info("********** Worker->Receive :: router reference ")
       this.router = reference
       router ! Continue
   }
